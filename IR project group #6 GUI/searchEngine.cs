@@ -8,6 +8,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms.VisualStyles;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace IR_project_group__6_GUI
 {
@@ -232,11 +233,13 @@ namespace IR_project_group__6_GUI
 
                         foreach (var test in tempLocations1)
                         {
-                            foreach (var test2 in tempLocations2)
-                            {
-                                locations.Add(test);
-                            }
+                            locations.Add(test);
                         }
+                        foreach (var test2 in tempLocations2)
+                        {
+                            locations.Add(test2);
+                        }
+                        
                     }
                     locations = locations.Distinct().ToList();
                 }
