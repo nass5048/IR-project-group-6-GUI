@@ -62,22 +62,14 @@ namespace IR_project_group__6_GUI
             {
                 return invertedindex;
             }
-            foreach (var index in invertedindex)
-            {
-                if (isInIndex)
-                {
-                    invertedindex[i].AddLocation(location);
-                    break;
-                }
-                if (index.token == test)
-                {
-                    isInIndex = true;
-                }
-                i++;
-            }
-            if (!isInIndex)
+            var index = invertedindex.IndexOf(invertedindex.FirstOrDefault(temp => temp.token == test));
+            if (index == -1)
             {
                 invertedindex.Add(new InvertedIndexData(test, location));
+            } else
+            {
+                invertedindex[index].locations.Add(location);
+                invertedindex[index].locations = invertedindex[index].locations.Distinct().ToList();
             }
             return invertedindex;
         }
@@ -90,6 +82,7 @@ namespace IR_project_group__6_GUI
             //grabs the text from the document and proccesses it
             while ((line = reader.ReadLine()) != null)
             {
+                line = Regex.Replace(line, @"[^\w\d\s]", " ");
                 string[] items = line.Split(' ');
                 //int myInteger = int.Parse(items[1]);   // Here's your integer.
 
@@ -100,12 +93,13 @@ namespace IR_project_group__6_GUI
                     string temp;
                     //Console.WriteLine(item);
                     temp = item.ToLower();
-                    temp = Regex.Replace(temp, @"[^\w\d\s]", "");
+                    
                     temp = pluralizer.Singularize(temp);
 
                     if (string.IsNullOrWhiteSpace(temp) || "1234567890".Contains(temp.First()) || "1234567890".Contains(temp.Last()))
                         continue;
-                    data = checkIndex(data, temp, path.Substring(14));
+                    var endPath = path.Split('\\').Last();
+                    data = checkIndex(data, temp, endPath);
                     //Console.WriteLine(temp);
 
                     list.Add(temp);

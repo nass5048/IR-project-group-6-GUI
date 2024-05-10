@@ -20,7 +20,11 @@ namespace IR_project_group__6_GUI
             InitializeComponent();
             Label label = new Label();
             label.Text = "Items in the Inverterted index: " + engine.data.Count;
-            label.Text += "\n Files parsed: " + engine.filesParsed;
+            label.Text += "\nFiles parsed: " + engine.filesParsed;
+            var topwords = engine.data.OrderBy(data => data.locations.Count).ToList();
+            label.Text += "\nTop 100th word: " + topwords[100].token;
+            label.Text += "\nTop 500th word: " + topwords[500].token;
+            label.Text += "\nTop 1000th word: " + topwords[1000].token;
             label.Dock = DockStyle.Fill;
             tabPage3.Controls.Add(label);
 
