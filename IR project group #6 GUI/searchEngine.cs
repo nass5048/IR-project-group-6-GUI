@@ -15,25 +15,21 @@ namespace IR_project_group__6_GUI
     {
         public List<InvertedIndexData> data = new List<InvertedIndexData>();
         public int filesParsed = 0;
-        public searchEngine()
+        public string path = string.Empty;
+        public searchEngine(string path)
         {
-            var files = from file in Directory.EnumerateFiles("C:\\Users\\Mike\\source\\repos\\IR project group #6 GUI\\IR project group #6 GUI\\Data") select file;
+            var files = from file in Directory.EnumerateFiles(path, "*.txt") select file;
             int docID = 0;
+            this.path = path;
             //create some sort of loading so the user knows the program is working
             foreach (var file in files)
             {
 
-                //Console.WriteLine("{0}", file);
                 filesParsed++;
                 data = Process(file);
             }
             //prints out the index
             data = Sort();
-            //foreach(var t in data)
-            //{
-            //    Console.WriteLine(t.token);
-            //    Console.WriteLine(t.soundex);
-            //}
         }
         private List<InvertedIndexData> Sort()
         {
@@ -109,6 +105,7 @@ namespace IR_project_group__6_GUI
                 // for the current line. We can then store those values or print them,
                 // or anything else we like.
             }
+            reader.Close();
             return data;
         }
         //need to figure out how to create the inverted index probably do this in the process function
