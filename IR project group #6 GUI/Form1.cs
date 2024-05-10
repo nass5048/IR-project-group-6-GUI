@@ -1,5 +1,6 @@
 ﻿using IR_Project_group6_C_;
 using System;
+using System.CodeDom;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -31,11 +32,13 @@ namespace IR_project_group__6_GUI
             tabPage2.Text = "Index";
             tabPage3.Text = "Stats";
             tabPage4.Text = "Config";
+            tabPage5.Text = "File Stats";
             fileSystemWatcher1.Path = engine.path;
             label2.Text = "File Path: " + engine.path;
             Label label = new Label();
             label.Text = "Items in the Inverterted index: " + engine.data.Count;
             label.Text += "\nFiles parsed: " + engine.filesParsed;
+            label.Text += "\nTotal words parsed: " + engine.totalWordsParsed;
             var topwords = engine.data.OrderByDescending(data => data.locations.Count).ToList();
             label.Text += "\nTop word: " + topwords[0].token;
             label.Text += "\nTop 100th word: " + topwords[99].token;
@@ -44,16 +47,26 @@ namespace IR_project_group__6_GUI
             label.Text += "\nLast word: " + topwords.Last().token;
             label.Dock = DockStyle.Fill;
             tabPage3.Controls.Add(label);
+            DataTable dtf = new DataTable();
+            dtf.Columns.Add("File", typeof(string));
+            dtf.Columns.Add("Total Words", typeof(int));
+            dtf.Columns.Add("Distinct Words", typeof(int));
+            foreach (var data in engine.FilePaths)
+            {
+                dtf.Rows.Add(data.path.Split('\\').Last(), data.totalWords, data.distinctWords);
+            }
+            dataGridView3.DataSource = dtf;
 
             DataTable dt = new DataTable();
             dt.Columns.Add("Token", typeof(string));
             dt.Columns.Add("Soundex", typeof(string));
             dt.Columns.Add("Frequency", typeof(int));
+            dt.Columns.Add("Total Words", typeof(int));
             //dt.Columns.Add("Publish", typeof(DateTime));
             //dt.Columns.Add("Author", typeof(string));
             foreach (var data in engine.data)
             {
-                dt.Rows.Add(data.token, data.soundex, data.locations.Count);
+                dt.Rows.Add(data.token, data.soundex, data.locations.Count, data.totalWords);
             }
             dataGridView1.DataSource = dt;
         }

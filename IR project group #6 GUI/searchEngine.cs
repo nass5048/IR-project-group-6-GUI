@@ -17,8 +17,11 @@ namespace IR_project_group__6_GUI
         public List<InvertedIndexData> data = new List<InvertedIndexData>();
         public int filesParsed = 0;
         public string path = string.Empty;
+        public int totalWordsParsed;
+        public List<FileData> FilePaths = new List<FileData>();
         public searchEngine(string path)
         {
+            totalWordsParsed = 0;
             var files = from file in Directory.EnumerateFiles(path, "*.txt") select file;
             int docID = 0;
             this.path = path;
@@ -54,18 +57,20 @@ namespace IR_project_group__6_GUI
         private List<InvertedIndexData> checkIndex(List<InvertedIndexData> invertedindex, string test, string location)
         {
             bool isInIndex = false;
+            var endPath = location.Split('\\').Last();
+
             int i = 0;
-            if (test == "and" || test == "or" || test == "not")
+            if (/*test == "and" || test == "or" ||*/ test == "not")
             {
                 return invertedindex;
             }
             var index = invertedindex.IndexOf(invertedindex.FirstOrDefault(temp => temp.token == test));
             if (index == -1)
             {
-                invertedindex.Add(new InvertedIndexData(test, location));
+                invertedindex.Add(new InvertedIndexData(test, endPath));
             } else
             {
-                invertedindex[index].locations.Add(location);
+                invertedindex[index].AddLocation(endPath);
                 invertedindex[index].locations = invertedindex[index].locations.Distinct().ToList();
             }
             return invertedindex;
@@ -84,6 +89,7 @@ namespace IR_project_group__6_GUI
             StreamReader reader = File.OpenText(path);
             IPluralize pluralizer = new Pluralizer();
             string line;
+            FilePaths.Add(new FileData(path));
             //grabs the text from the document and proccesses it
             while ((line = reader.ReadLine()) != null)
             {
@@ -95,6 +101,7 @@ namespace IR_project_group__6_GUI
                 List<string> list = new List<string>();
                 foreach (string item in items)
                 {
+                    
                     string temp;
                     //Console.WriteLine(item);
                     temp = item.ToLower();
@@ -103,8 +110,10 @@ namespace IR_project_group__6_GUI
 
                     if (string.IsNullOrWhiteSpace(temp) || "1234567890".Contains(temp.First()) || "1234567890".Contains(temp.Last()))
                         continue;
-                    var endPath = path.Split('\\').Last();
-                    data = checkIndex(data, temp, endPath);
+                    totalWordsParsed++;
+                    FilePaths[FilePaths.Count - 1].totalWords++;
+                    FilePaths[FilePaths.Count - 1].words.Add(item);
+                    data = checkIndex(data, temp, path);
                     //Console.WriteLine(temp);
 
                     list.Add(temp);
@@ -114,6 +123,7 @@ namespace IR_project_group__6_GUI
                 // for the current line. We can then store those values or print them,
                 // or anything else we like.
             }
+            FilePaths[FilePaths.Count - 1].done();
             reader.Close();
             return data;
         }
@@ -124,6 +134,7 @@ namespace IR_project_group__6_GUI
             string line;
             //grabs the text from the document and proccesses it
             string[] items = query.Split(' ');
+            int reRun = 0;
             //int myInteger = int.Parse(items[1]);   // Here's your integer.
 
             // proccess the query and puts it in its own list of strings
@@ -164,9 +175,9 @@ namespace IR_project_group__6_GUI
             }
             for (int i = 0; i < list.Count; i++)
             {
-                if (list[i].term == "and" && i > 0 && i < list.Count)
+                if (list[i].term == "and" && i > 0 && i < list.Count-1)
                 {
-
+                    reRun++;
                     var temp1 = SearchData(list[i - 1], soundex);
                     var temp2 = SearchData( list[i + 1], soundex);
                     List<string> tempLocations1 = new List<string>();
@@ -196,9 +207,9 @@ namespace IR_project_group__6_GUI
                     }
                     locations = locations.Distinct().ToList();
                 }
-                else if (list[i].term == "or" && i > 0 && i < list.Count)
+                else if (list[i].term == "or" && i > 0 && i < list.Count-1)
                 {
-
+                    reRun++;
                     var temp1 = SearchData(list[i - 1], soundex);
                     var temp2 = SearchData(list[i + 1], soundex);
                     List<string> tempLocations1 = new List<string>();
@@ -240,9 +251,19 @@ namespace IR_project_group__6_GUI
                             locations.Add(test2);
                         }
                         
-                    }
+                    } 
                     locations = locations.Distinct().ToList();
                 }
+            }
+            if (reRun==0)
+            {
+                query = "";
+                for(int i = 0; i < items.Length; i++)
+                {
+                    query += items[i] + " and ";
+                    
+                }
+                locations = Search(query, soundex);
             }
             // At this point, `myInteger` and `path` contain the values we want
             // for the current line. We can then store those values or print them,

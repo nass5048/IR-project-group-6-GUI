@@ -8,6 +8,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Data;
+using System.Diagnostics.Tracing;
 
 namespace IR_project_group__6_GUI
 {
@@ -24,6 +25,26 @@ namespace IR_project_group__6_GUI
         public bool op;
         public string soundex;
     }
+
+    public class FileData
+    {
+        public FileData(string path)
+        {
+            this.path = path;
+        }
+        public string path;
+        public int totalWords;
+        public int distinctWords;
+        public List<string> words= new List<string>();
+        
+        public void done()
+        {
+            distinctWords = words.Distinct().ToList().Count;
+            words.Clear();
+        }
+    }
+
+
     internal static class Program
     {
         

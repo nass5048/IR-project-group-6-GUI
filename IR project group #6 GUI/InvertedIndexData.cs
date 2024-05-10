@@ -12,8 +12,10 @@ namespace IR_Project_group6_C_
         public string token;
         public List<string> locations = new List<string>();
         public string soundex;
+        public int totalWords;
         public InvertedIndexData(string token, string locations)
         {
+            totalWords = 1;
             this.token = token;
             this.locations.Add(locations);
             if(!string.IsNullOrEmpty(token))
@@ -21,6 +23,7 @@ namespace IR_Project_group6_C_
         }
         public void AddLocation(string location)
         {
+            totalWords++;
             locations.Add(location);
         }
         public string AddSoundex(string token)
