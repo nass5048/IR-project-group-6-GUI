@@ -20,7 +20,19 @@ namespace IR_project_group__6_GUI
 
             this.engine = engine;
             InitializeComponent();
-            setTabNames();
+            setData();
+            
+
+            
+        }
+        private void setData()
+        {
+            tabPage1.Text = "Search";
+            tabPage2.Text = "Index";
+            tabPage3.Text = "Stats";
+            tabPage4.Text = "Config";
+            fileSystemWatcher1.Path = engine.path;
+            label2.Text = "File Path: " + engine.path;
             Label label = new Label();
             label.Text = "Items in the Inverterted index: " + engine.data.Count;
             label.Text += "\nFiles parsed: " + engine.filesParsed;
@@ -29,6 +41,7 @@ namespace IR_project_group__6_GUI
             label.Text += "\nTop 100th word: " + topwords[99].token;
             label.Text += "\nTop 500th word: " + topwords[499].token;
             label.Text += "\nTop 1000th word: " + topwords[999].token;
+            label.Text += "\nLast word: " + topwords.Last().token;
             label.Dock = DockStyle.Fill;
             tabPage3.Controls.Add(label);
 
@@ -43,17 +56,6 @@ namespace IR_project_group__6_GUI
                 dt.Rows.Add(data.token, data.soundex, data.locations.Count);
             }
             dataGridView1.DataSource = dt;
-
-            
-        }
-        private void setTabNames()
-        {
-            tabPage1.Text = "Search";
-            tabPage2.Text = "Index";
-            tabPage3.Text = "Stats";
-            tabPage4.Text = "Config";
-            fileSystemWatcher1.Path = engine.path;
-            label2.Text = "File Path: " + engine.path;
         }
         private void button1_Click_1(object sender, EventArgs e)
         {
@@ -77,9 +79,9 @@ namespace IR_project_group__6_GUI
 
         private void fileSystemWatcher1_Changed(object sender, System.IO.FileSystemEventArgs e)
         {
-            MessageBox.Show("Data Changed Racalculating Index");
-            engine = new searchEngine(engine.path);
-            
+            engine.DeleteLocation(e.FullPath);
+            engine.Process(e.FullPath);
+            setData();
         }
 
         private void button3_Click(object sender, EventArgs e)

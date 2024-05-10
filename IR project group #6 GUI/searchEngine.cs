@@ -69,7 +69,15 @@ namespace IR_project_group__6_GUI
             }
             return invertedindex;
         }
-        private List<InvertedIndexData> Process(string path)
+        public void DeleteLocation(string path)
+        {
+            var endPath = path.Split('\\').Last();
+            for(int i = 0; i < data.Count; i++)
+            {
+                data[i].locations.RemoveAll(p => p == endPath);
+            }
+        }
+        public List<InvertedIndexData> Process(string path)
         {
 
             StreamReader reader = File.OpenText(path);
