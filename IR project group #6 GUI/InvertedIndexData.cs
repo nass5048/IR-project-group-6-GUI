@@ -4,9 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+//
+// Mike Nassoiy CS465/665, S24, and Project # 1
 
 namespace IR_Project_group6_C_
 {
+    //the data being stored in the inverted index
     public class InvertedIndexData
     {
         public string token;
@@ -26,6 +29,7 @@ namespace IR_Project_group6_C_
             totalWords++;
             locations.Add(location);
         }
+        //creates the soundex for the terms
         public string AddSoundex(string token)
         {
             const int MaxSoundexCodeLength = 4;
@@ -40,9 +44,9 @@ namespace IR_Project_group6_C_
 
             if (string.IsNullOrEmpty(token))
                 soundex = string.Empty.PadRight(MaxSoundexCodeLength, '0');
-
+            //gets the first character in the soundex
             soundexCode.Append(token.First());
-
+            //loops through the rest if characters and generates soundex 
             for (var i = 1; i < token.Length; i++)
             {   
                 var numberCharForCurrentLetter =
@@ -75,6 +79,7 @@ namespace IR_Project_group6_C_
                                 .Substring(0, MaxSoundexCodeLength);
             return soundex;
         }
+        //gets the digit to be used in soundex
         private char GetCharNumberForLetter(char letter)
         {
             if ("BFPV".Contains(letter)) return '1';

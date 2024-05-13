@@ -1,6 +1,6 @@
 ﻿namespace IR_project_group__6_GUI
 {
-    partial class Form1
+    partial class GUI
     {
         /// <summary>
         /// Required designer variable.

@@ -9,11 +9,14 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Data;
 using System.Diagnostics.Tracing;
+//
+// Mike Nassoiy CS465/665, S24, and Project # 1
 
 namespace IR_project_group__6_GUI
 {
     public class queryTerm
     {
+        //the type that query terms are
         public queryTerm(string term1)
         {
             term = term1;
@@ -40,7 +43,9 @@ namespace IR_project_group__6_GUI
         public int totalWords;
         public int distinctWords;
         public List<string> words= new List<string>();
-        
+        /// <summary>
+        /// Must call this function when you are done with entering filedata
+        /// </summary>
         public void done()
         {
             distinctWords = words.Distinct().ToList().Count;
@@ -64,7 +69,7 @@ namespace IR_project_group__6_GUI
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form1(engine));
+            Application.Run(new GUI(engine));
         }
     }
 }
