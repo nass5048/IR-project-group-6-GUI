@@ -45,7 +45,7 @@ namespace IR_project_group__6_GUI
             IEnumerable<InvertedIndexData> location;
             if (soundex)
             {
-                location = data.Where(temp => (temp.soundex == query.soundex));
+                location = data.Where(temp => (temp.soundex == query.soundex.ToUpper()));
             }
             else
             {
@@ -147,7 +147,7 @@ namespace IR_project_group__6_GUI
                 temp = Regex.Replace(temp, @"[^\w\d\s]", "");
                 temp = pluralizer.Singularize(temp);
 
-                if (string.IsNullOrWhiteSpace(temp) || "1234567890".Contains(temp.First()) || "1234567890".Contains(temp.Last()))
+                if (string.IsNullOrWhiteSpace(temp) || "1234567890".Contains(temp.First()) /*|| "1234567890".Contains(temp.Last())*/)
                     continue;
                 //Console.WriteLine(temp);
 
@@ -161,7 +161,7 @@ namespace IR_project_group__6_GUI
             }
             //finds the and not and or operators
             var locations = new List<string>();
-            if (list.Count <= 1)
+            if (list.Count == 1)
             {
                 var searchData = SearchData(list[0], soundex);
                 if (searchData != null)

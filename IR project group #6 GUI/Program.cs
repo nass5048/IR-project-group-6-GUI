@@ -18,8 +18,12 @@ namespace IR_project_group__6_GUI
         {
             term = term1;
             op = true;
+            
             var temp = new InvertedIndexData(term1, "");
+
             soundex = temp.soundex;
+            if ("1234567890".Contains(term1.Last()))
+                soundex = term1;
         }
         public string term;
         public bool op;
