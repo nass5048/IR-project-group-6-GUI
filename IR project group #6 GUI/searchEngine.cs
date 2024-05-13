@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms.VisualStyles;
 using static System.Net.Mime.MediaTypeNames;
 //
-// Mike Nassoiy CS465/665, S24, and Project # 1
+// Mike Nassoiy, Andrew CS465/665, S24, and Project # 1
 
 namespace IR_project_group__6_GUI
 {
