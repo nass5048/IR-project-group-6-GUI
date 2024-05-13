@@ -35,22 +35,18 @@ namespace IR_project_group__6_GUI
             tabPage5.Text = "File Stats";
             fileSystemWatcher1.Path = engine.path;
             label2.Text = "File Path: " + engine.path;
-            label3.Text = "Items in the Inverted index: " + engine.data.Count;
-            label3.Text += "\nFiles parsed: " + engine.filesParsed;
-            label3.Text += "\nTotal words parsed: " + engine.totalWordsParsed;
+            Label label = new Label();
+            label.Text = "Items in the Inverterted index: " + engine.data.Count;
+            label.Text += "\nFiles parsed: " + engine.filesParsed;
+            label.Text += "\nTotal words parsed: " + engine.totalWordsParsed;
             var topwords = engine.data.OrderByDescending(data => data.locations.Count).ToList();
-            if(topwords.Count > 0)
-                label3.Text += "\nTop word: " + topwords[0].token;
-            if (topwords.Count > 99)
-                label3.Text += "\nTop 100th word: " + topwords[99].token;
-            if (topwords.Count > 499)
-                label3.Text += "\nTop 500th word: " + topwords[499].token;
-            if (topwords.Count > 999)
-                label3.Text += "\nTop 1000th word: " + topwords[999].token;
-            if (topwords.Count > 0)
-                label3.Text += "\nLast word: " + topwords.Last().token;
-            label3.Dock = DockStyle.Fill;
-            //tabPage3.Controls.Add(label);
+            label.Text += "\nTop word: " + topwords[0].token;
+            label.Text += "\nTop 100th word: " + topwords[99].token;
+            label.Text += "\nTop 500th word: " + topwords[499].token;
+            label.Text += "\nTop 1000th word: " + topwords[999].token;
+            label.Text += "\nLast word: " + topwords.Last().token;
+            label.Dock = DockStyle.Fill;
+            tabPage3.Controls.Add(label);
             DataTable dtf = new DataTable();
             dtf.Columns.Add("File", typeof(string));
             dtf.Columns.Add("Total Words", typeof(int));
@@ -108,7 +104,6 @@ namespace IR_project_group__6_GUI
                 engine = new searchEngine(folderBrowserDialog1.SelectedPath);
             MessageBox.Show("File Path Changed");
             label2.Text = "File Path: " + engine.path;
-            setData();
             fileSystemWatcher1.Path = engine.path;
         }
     }
