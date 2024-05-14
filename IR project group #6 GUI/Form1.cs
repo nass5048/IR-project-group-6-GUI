@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -123,6 +124,24 @@ namespace IR_project_group__6_GUI
             setData();
             //sets the folder to watch for edits
             fileSystemWatcher1.Path = engine.path;
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            var text = "";
+            foreach(var s in engine.data)
+            {
+                text += s.token + "\n";
+                text += s.soundex + "\n";
+                text += "Total Files Word is in: " + s.totalWords + "\n";
+                foreach(var locations in s.locations)
+                {
+                    text += locations + "\n";
+                }
+                text += "====================================================================\n";
+            }
+            File.WriteAllText("Stats.txt",text);
+            MessageBox.Show("Statistics Created");
         }
     }
 }

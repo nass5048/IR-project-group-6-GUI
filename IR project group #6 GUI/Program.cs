@@ -65,7 +65,7 @@ namespace IR_project_group__6_GUI
         {
             //"..\\..\\..\\Data"
             
-            searchEngine engine = new searchEngine("..\\");
+            searchEngine engine = new searchEngine("..\\..\\");
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
