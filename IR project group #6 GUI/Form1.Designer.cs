@@ -40,6 +40,9 @@
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.label3 = new System.Windows.Forms.Label();
             this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.progressBar1 = new System.Windows.Forms.ProgressBar();
+            this.label4 = new System.Windows.Forms.Label();
+            this.button2 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
             this.tabPage5 = new System.Windows.Forms.TabPage();
@@ -47,8 +50,7 @@
             this.fileSystemWatcher1 = new System.IO.FileSystemWatcher();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
-            this.button2 = new System.Windows.Forms.Button();
-            this.label4 = new System.Windows.Forms.Label();
+            this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
@@ -185,6 +187,7 @@
             // 
             // tabPage4
             // 
+            this.tabPage4.Controls.Add(this.progressBar1);
             this.tabPage4.Controls.Add(this.label4);
             this.tabPage4.Controls.Add(this.button2);
             this.tabPage4.Controls.Add(this.button3);
@@ -196,6 +199,32 @@
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "tabPage4";
             this.tabPage4.UseVisualStyleBackColor = true;
+            // 
+            // progressBar1
+            // 
+            this.progressBar1.Location = new System.Drawing.Point(40, 375);
+            this.progressBar1.Name = "progressBar1";
+            this.progressBar1.Size = new System.Drawing.Size(270, 17);
+            this.progressBar1.TabIndex = 6;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(35, 231);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(375, 25);
+            this.label4.TabIndex = 5;
+            this.label4.Text = "Generate Statistics (May take a while)";
+            // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(40, 268);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(270, 113);
+            this.button2.TabIndex = 4;
+            this.button2.Text = "Save Statitistics";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
             // button3
             // 
@@ -250,24 +279,11 @@
             // 
             this.openFileDialog1.FileName = "openFileDialog1";
             // 
-            // button2
+            // backgroundWorker1
             // 
-            this.button2.Location = new System.Drawing.Point(40, 268);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(270, 113);
-            this.button2.TabIndex = 4;
-            this.button2.Text = "Save Statitistics";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(35, 231);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(375, 25);
-            this.label4.TabIndex = 5;
-            this.label4.Text = "Generate Statistics (May take a while)";
+            this.backgroundWorker1.WorkerReportsProgress = true;
+            this.backgroundWorker1.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker1_DoWork);
+            this.backgroundWorker1.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.backgroundWorker1_ProgressChanged);
             // 
             // GUI
             // 
@@ -317,6 +333,8 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Label label4;
+        private System.ComponentModel.BackgroundWorker backgroundWorker1;
+        private System.Windows.Forms.ProgressBar progressBar1;
     }
 }
 

@@ -128,20 +128,34 @@ namespace IR_project_group__6_GUI
 
         private void button2_Click(object sender, EventArgs e)
         {
+            backgroundWorker1.RunWorkerAsync();
+        }
+
+        private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
+        {
             var text = "";
-            foreach(var s in engine.data)
+            int i = 0;
+            backgroundWorker1.ReportProgress(0);
+            foreach (var s in engine.data)
             {
                 text += s.token + "\n";
                 text += s.soundex + "\n";
                 text += "Total Files Word is in: " + s.totalWords + "\n";
-                foreach(var locations in s.locations)
+                foreach (var locations in s.locations)
                 {
                     text += locations + "\n";
                 }
                 text += "====================================================================\n";
+                i++;
+                backgroundWorker1.ReportProgress((int)((int)(double)i / (double)engine.data.Count *100));
             }
-            File.WriteAllText("Stats.txt",text);
+            File.WriteAllText("Stats.txt", text);
+            backgroundWorker1.ReportProgress(100);
             MessageBox.Show("Statistics Created");
+        }
+        private void backgroundWorker1_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+            progressBar1.Value = e.ProgressPercentage;
         }
     }
 }
